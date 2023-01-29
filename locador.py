@@ -68,7 +68,11 @@ class Locador:
         self.__carrinho = carrinho
     
     def pagar_carrinho(self) -> None:
-        self.__carrinho.set_pago(True)
+        if self.__carrinho.get_pago() == False:
+            self.__carrinho.set_pago(True)
+            return True
+        else:
+            return False
     
     def adicionar_item(self, item: Item) -> bool:
         novo_item_pedido = ItemPedido(item)
