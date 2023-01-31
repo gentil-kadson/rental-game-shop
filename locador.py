@@ -1,6 +1,10 @@
+from itemPedido import ItemPedido
+from endereco import Endereco
+from item import Item
+
 class Locador:
     class Carrinho:
-        def __init__(self, itens_pedido: list[itemPedido], usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco) -> None:
+        def __init__(self, itens_pedido: list[ItemPedido], usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco) -> None:
             self.__itens_pedido = itens_pedido
             self.__total = 0
             self.__usa_transportadora = usa_transportadora
@@ -10,10 +14,10 @@ class Locador:
             self.__endereco_entrega = endereco_entrega
             self.__endereco_devolucao = endereco_devolucao
         
-        def get_itens_pedido(self) -> list[itemPedido]:
+        def get_itens_pedido(self) -> list[ItemPedido]:
             return self.__itens_pedido
         
-        def set_itens_pedido(self, itens_pedido: list[itemPedido]) -> None:
+        def set_itens_pedido(self, itens_pedido: list[ItemPedido]) -> None:
             self.__itens_pedido = itens_pedido
         
         def get_total(self) -> float:
@@ -74,8 +78,8 @@ class Locador:
         else:
             return False
     
-    def adicionar_item(self, item: Item) -> bool:
-        novo_item_pedido = ItemPedido(item)
+    def adicionar_item(self, item: Item, quantidade: int) -> bool:
+        novo_item_pedido = ItemPedido(item, quantidade)
         self.__carrinho.set_itens_pedido(self.__carrinho.get_itens_pedido().append(novo_item_pedido))
         return True
 
