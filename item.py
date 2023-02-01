@@ -1,4 +1,4 @@
-
+from locatario import Locatario
 class Item:
     def __init__(self, ident: int, nome: str, preco: float, disponível: bool, dono: Locatario) -> None:
         self.__id = ident
