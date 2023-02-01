@@ -1,6 +1,7 @@
 from usuario import Usuario
 from item import Item
-from locador import Carrinho
+from locador import Locador
+
 
 class Locatario(Usuario):
     list_itens_locatario = [] # por enquanto criei essa lista aqui...
@@ -20,7 +21,7 @@ class Locatario(Usuario):
             if item.get_ident == ident:
                 self.list_itens_locatario.remove(item)
 
-    def enviar_itens(self, carrinho : Carrinho):
+    def enviar_itens(self, carrinho : Locador.Carrinho):
         carrinho.set_entregue(True)
         print("realizou a entrega do ", carrinho)
 

@@ -1,5 +1,5 @@
 from endereco import Endereco
-
+from locador import Locador
 # VER TIPAGEM DO ATRIBUTO 'tipo', SE É INTEIRO MESMO
 
 
@@ -35,7 +35,7 @@ class Usuario:
     """
 
     # VER SE RECEBE O CARRINHO COMO PARÂMETRO MESMO. SE SIM, MUDAR NO DIAGRAMA
-    def enviar_itens(self, carrinho: Carrinho):
+    def enviar_itens(self, carrinho: Locador.Carrinho):
         # implementar aqui
         pass
 
