@@ -1,10 +1,7 @@
-from endereco import Endereco
-from locador import Locador
 # VER TIPAGEM DO ATRIBUTO 'tipo', SE É INTEIRO MESMO
 
-
 class Usuario:
-    def __init__(self, nome: str, cpf_ou_cnpj: str, tipo: int, email: str, senha: str, endereco: Endereco) -> None:
+    def __init__(self, nome: str, cpf_ou_cnpj: str, tipo: int, email: str, senha: str, endereco) -> None:
         self.__nome = nome
         self.__cpf_ou_cnpj = cpf_ou_cnpj
         self.__tipo = tipo
@@ -35,7 +32,7 @@ class Usuario:
     """
 
     # VER SE RECEBE O CARRINHO COMO PARÂMETRO MESMO. SE SIM, MUDAR NO DIAGRAMA
-    def enviar_itens(self, carrinho: Locador.Carrinho):
+    def enviar_itens(self, carrinho):
         # implementar aqui
         pass
 
@@ -74,7 +71,7 @@ class Usuario:
     def get_logado(self):
         return self.__logado
 
-    def get_endereco(self) -> Endereco:
+    def get_endereco(self):
         return self.__endereco
 
     def set_endereco(self, endereco) -> None:

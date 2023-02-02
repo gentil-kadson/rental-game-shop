@@ -37,6 +37,9 @@ def criar_conta():
             if usa_transportadora == 1:
                 locador = Locador(True, endereco, endereco, nome, cpf_cnpj, 1, email, senha, endereco)
                 locadores.append(locador)
+                json_object = json.dumps({ "usa_transportadora": True, "endereco": endereco, "nome": nome, "cpf_cnpj": cpf_cnpj, "tipo": 1, "email": email, "senha": senha, "endereco": endereco })
+                with open('locadores.json', 'w') as outfile:
+                    outfile.write(json_object)
             else:
                 locador = Locador(False, endereco, endereco)
                 locadores.append(locador)

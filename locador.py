@@ -1,12 +1,9 @@
-from itemPedido import ItemPedido
-from endereco import Endereco
-from item import Item
 from usuario import Usuario
-
+from itemPedido import ItemPedido
 
 class Locador(Usuario):
     class Carrinho:
-        def __init__(self, itens_pedido: list[ItemPedido], usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco) -> None:
+        def __init__(self, itens_pedido: list[ItemPedido], usa_transportadora: bool, endereco_entrega, endereco_devolucao) -> None:
             self.__itens_pedido = itens_pedido
             self.__total = 0
             self.__usa_transportadora = usa_transportadora
@@ -52,19 +49,19 @@ class Locador(Usuario):
         def set_devolvido(self, devolvido: bool) -> None:
             self.__devolvido = devolvido
 
-        def get_endereco_entrega(self) -> Endereco:
+        def get_endereco_entrega(self):
             return self.__endereco_entrega
         
-        def set_endereco_entrega(self, endereco_entrega: Endereco) -> None:
+        def set_endereco_entrega(self, endereco_entrega) -> None:
             self.__endereco_entrega = endereco_entrega
 
-        def get_endereco_devolucao(self) -> Endereco:
+        def get_endereco_devolucao(self):
             return self.__endereco_devolucao
         
-        def set_endereco_devolucao(self, endereco_devolucao: Endereco) -> None:
+        def set_endereco_devolucao(self, endereco_devolucao) -> None:
             self.__endereco_devolucao = endereco_devolucao
 
-    def __init__(self, usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco, nome: str, cpf: str, tipo: int, email: str, senha: str, endereco: Endereco) -> None:
+    def __init__(self, usa_transportadora: bool, endereco_entrega, endereco_devolucao, nome: str, cpf: str, tipo: int, email: str, senha: str, endereco) -> None:
         super().__init__(nome, cpf, tipo, email, senha, endereco)
         self.__carrinho = self.Carrinho([], usa_transportadora, endereco_entrega, endereco_devolucao)
     
@@ -81,7 +78,7 @@ class Locador(Usuario):
         else:
             return False
     
-    def adicionar_item(self, item: Item, quantidade: int) -> bool:
+    def adicionar_item(self, item, quantidade: int) -> bool:
         novo_item_pedido = ItemPedido(item, quantidade)
         self.__carrinho.set_itens_pedido(self.__carrinho.get_itens_pedido().append(novo_item_pedido))
         return True

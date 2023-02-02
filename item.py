@@ -1,6 +1,5 @@
-from locatario import Locatario
 class Item:
-    def __init__(self, ident: int, nome: str, preco: float, disponível: bool, dono: Locatario) -> None:
+    def __init__(self, ident: int, nome: str, preco: float, disponível: bool, dono) -> None:
         self.__id = ident
         self.__nome = nome
         self.__preco = preco
