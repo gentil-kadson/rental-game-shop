@@ -1,15 +1,14 @@
 from usuario import Usuario
 from item import Item
 from locador import Locador
+from endereco import Endereco
 
 
 class Locatario(Usuario):
-    list_itens_locatario = [] # por enquanto criei essa lista aqui...
-
-    def __init__(self, usuario : Usuario):
-        super().__init__(usuario.get_nome(), usuario.get_cpf_ou_cnpj(),
-                         usuario.get_tipo(), usuario.get_email(), usuario.get_senha(),
-                         usuario.get_endereco())
+    def __init__(self, nome: str, tipo: int, cpf_ou_cnpj: str, email: str, senha: str, endereco: Endereco) -> None:
+        super().__init__(nome, cpf_ou_cnpj,
+                         tipo, email, senha,
+                         endereco)
 
     def cadastrar_item(self, ident : int, nome : str, preco : float, disponivel : bool) -> Item:
         new_item = Item(ident, nome, preco, disponivel, self)

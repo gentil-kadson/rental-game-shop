@@ -1,8 +1,10 @@
 from itemPedido import ItemPedido
 from endereco import Endereco
 from item import Item
+from usuario import Usuario
 
-class Locador:
+
+class Locador(Usuario):
     class Carrinho:
         def __init__(self, itens_pedido: list[ItemPedido], usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco) -> None:
             self.__itens_pedido = itens_pedido
@@ -62,7 +64,8 @@ class Locador:
         def set_endereco_devolucao(self, endereco_devolucao: Endereco) -> None:
             self.__endereco_devolucao = endereco_devolucao
 
-    def __init__(self, usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco) -> None:
+    def __init__(self, usa_transportadora: bool, endereco_entrega: Endereco, endereco_devolucao: Endereco, nome: str, cpf: str, tipo: int, email: str, senha: str, endereco: Endereco) -> None:
+        super().__init__(nome, cpf, tipo, email, senha, endereco)
         self.__carrinho = self.Carrinho([], usa_transportadora, endereco_entrega, endereco_devolucao)
     
     def get_carrinho(self) -> Carrinho:
