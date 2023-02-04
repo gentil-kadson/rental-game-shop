@@ -32,7 +32,7 @@ class Usuario:
     """
 
     # VER SE RECEBE O CARRINHO COMO PARÂMETRO MESMO. SE SIM, MUDAR NO DIAGRAMA
-    def enviar_itens(self, carrinho):
+    def enviar_itens(self):
         # implementar aqui
         pass
 
