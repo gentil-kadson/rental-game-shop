@@ -1,6 +1,9 @@
+from itertools import count
+
 class Item:
-    def __init__(self, ident: int, nome: str, preco: float, disponivel: bool, dono, alugado: bool, devolvido: bool, entregue: bool) -> None:
-        self.__id = ident
+    iterator = count(start=1, step=1)
+    def __init__(self, nome: str, preco: float, disponivel: bool, dono, alugado: bool, devolvido: bool, entregue: bool) -> None:
+        self.__id = self.iterator.__next__()
         self.__nome = nome
         self.__preco = preco
         self.__disponivel = disponivel
@@ -53,7 +56,8 @@ class Item:
         return self.__dono
 
     def set_dono(self, novo_nome_dono) -> None:
-        self.__dono = Locatario(novo_nome_dono)
+        pass
+        # self.__dono = Locatario(novo_nome_dono)
 
     def __str__(self) -> str:
         return (f'ID: {self.__id}\nNome do Item: {self.__nome}\nPreço do Item: {self.__preco}\nDono do Item: {self.__dono.get_nome()}')

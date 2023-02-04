@@ -2,7 +2,6 @@ from locador import Locador
 from locatario import Locatario
 from endereco import Endereco
 from item import Item
-from itertools import count
 
 locadores: list[Locador] = []
 locatarios: list[Locatario] = []
@@ -10,7 +9,6 @@ itens: list[Item] = []
 criar_outra_conta: bool = True
 usuario_logado: Locador | Locatario = None
 logado: bool = False
-
 
 def criar_conta():
     while True:   
@@ -55,7 +53,6 @@ def logar():
     print("Que tipo de usuário é você?")
     print("[1] Locador \n[2] Locatário \n[3] Sair")
     opcao = input()
-    print('Essa é a opção: ' + opcao)
     if opcao == '3':
         print("Obrigado por utilizar nossa loja!")
     else:
@@ -135,8 +132,7 @@ def processo_confirmar_alugamento():
 def processo_cadastrar_item():
     nome = input('Nome do item: ')
     preco = input('preco: ')
-    id_counter = count().__next__()
-    item_novo = Item(id_counter, nome, float(preco), True, usuario_logado, False, False, False)
+    item_novo = Item(nome, float(preco), True, usuario_logado, False, False, False)
     itens.append(item_novo)
     print('Item cadastrado com sucesso!')
 
