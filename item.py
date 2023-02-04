@@ -31,7 +31,7 @@ class Item:
         self.__devolvido = devolvido
 
     def get_entregue(self) -> bool:
-        self.__entregue
+        return self.__entregue
 
     def set_entregue(self, entregue: bool) -> None:
         self.__entregue = entregue
@@ -52,7 +52,7 @@ class Item:
     def get_preco(self) -> float:
         return self.__preco
 
-    def get_dono(self) -> str:
+    def get_dono(self):
         return self.__dono
 
     def set_dono(self, novo_nome_dono) -> None:

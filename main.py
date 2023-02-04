@@ -91,8 +91,8 @@ def processo_alugamento():
         id_item = input("Digite o ID do item que deseja alugar: ")
         for item in itens:
             if item.get_ident() == int(id_item) and item.get_disponivel() == True:
-                usuario_logado.adicionar_item(item)
                 item.set_disponivel(False)
+                usuario_logado.adicionar_item(item)
 
         print("Deseja alguar mais algum?")
         print("[1] Sim \n[2] Não")
@@ -103,11 +103,21 @@ def processo_alugamento():
 def processo_devolver_item():
     while True:
         id_item_a_devolver = input("Digite o id do item que quer devolver: ")
+        
         for item in usuario_logado.get_itens_escolhidos():
-            if item.get_ident() == int(id_item_a_devolver):
+            if item.get_ident() == int(id_item_a_devolver) and item.get_entregue() == True:
                 item.set_entregue(False)
                 item.set_alugado(False)
+                item.set_disponivel(True)
                 usuario_logado.get_itens_escolhidos().remove(item)
+
+        for item in itens:
+            if item.get_ident() == int(id_item_a_devolver) and item.get_entregue() == True:
+                item.set_entregue(False)
+                item.set_alugado(False)
+                item.set_disponivel(True)
+
+        print("Item devolvido com sucesso!")
         print("Deseja devolver outro?")
         print("[1] Sim \n[2] Não")
         devolver_outro = input()
@@ -119,9 +129,14 @@ def processo_confirmar_alugamento():
         id_do_item_confirmado = input("Digite o id do item confirmado: ")
         confirmou = False
         for item in usuario_logado.get_itens_escolhidos():
-            if item.get_ident() == int(id_do_item_confirmado):
+            if item.get_ident() == int(id_do_item_confirmado) and item.get_alugado() == False:
                 item.set_alugado(True)
                 confirmou = True
+                break
+        for item in itens:
+            if item.get_ident() == int(id_do_item_confirmado) and item.get_alugado() == False:
+                item.set_alugado(True)
+                print("O item ficou alugado? " + item.get_alugado())
                 break
         if confirmou == True:
             print("Item confirmado! Deseja alugar outro?")
@@ -200,26 +215,29 @@ while True:
                     else:
                         print('Esse item não está cadastrado.')
                 elif opcao == '3':
-                    itens_a_serem_enviados: list[Item] = []
                     print("Esses são os itens que você tem e que foram requisitados:")
+                    tem_item_pra_enviar = False
                     for item in itens:
-                        if item.get_disponivel() == False and item.get_alugado() == True:
+                        if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado and item.get_entregue() == False:
                             print(item)
-                            itens_a_serem_enviados.append(item)
-                    if len(itens_a_serem_enviados) == 0:
-                        print('Você não tem nenhum item para enivar.')
+                            tem_item_pra_enviar = True
+                    if tem_item_pra_enviar == False:
+                        print('Você não tem nenhum item para enviar.')
                     else:
-                        print("Quer enviar-los?")
+                        print("Quer enviá-los?")
                         print("[1] Sim \n[2] Não")
                         enviar = input()
                         if enviar == '1':
-                            for item in itens_a_serem_enviados:
-                                item.set_entregue(True)
+                            for item in itens:
+                                if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
+                                    item.set_entregue(True)
+                            for locador in locadores:
+                                for item in locador.get_itens_escolhidos():
+                                    if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
+                                        item.set_entregue(True)
                 elif opcao == '4':
                     usuario_logado = None
                     break
-
-
 
 print("Obrigado por utilizar o nosso programa!")                    
 

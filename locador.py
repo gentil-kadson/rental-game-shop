@@ -95,7 +95,7 @@ class Locador(Usuario):
         return itens_entregues
 
     def adicionar_item(self, item: Item) -> bool:
-        self.set_itens_alugados([*self.__itens_alugados, item])
+        self.set_itens_escolhidos([*self.__itens_escolhidos, item])
         return True
 
     def remover_item(self, item: Item) -> bool:
