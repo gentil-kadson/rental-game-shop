@@ -60,14 +60,14 @@ def logar():
         senha_check = input("Digite a senha: ")
         if opcao == '1':
             for locador in locadores:
-                if locador.get_email() == email_check and locador.get_senha() == senha_check:
+                if locador.logar(email_check, senha_check) == True:
                     return locador
                 else:
                     return False
             
         if opcao == '2':
             for locatario in locatarios:
-                if locatario.get_email() == email_check and locatario.get_senha() == senha_check:
+                if locatario.logar(email_check, senha_check):
                     return locatario
                 else:
                     return False
@@ -149,6 +149,7 @@ def processo_cadastrar_item():
     preco = input('preco: ')
     item_novo = Item(nome, float(preco), True, usuario_logado, False, False, False)
     itens.append(item_novo)
+    usuario_logado.cadastrar_item()
     print('Item cadastrado com sucesso!')
 
 while True:

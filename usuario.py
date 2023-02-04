@@ -16,13 +16,12 @@ class Usuario:
         Retorna True se o usuário conseguir logar, caso contrário retorna False.    
     """
 
-    def logar(self, email, senha):
+    def logar(self, email, senha) -> bool:
         if self.get_email() == email and self.get_senha() == senha:
             self.__logado = True
-            print("Usuário logado!")
+            return True
         else:
-            self.__logado = False
-            print("Os dados estão incorretos. Tente novamente.")
+            return False
 
     """
         Método enviar_itens - método abstrato que é implementado por Locador e Locatário
