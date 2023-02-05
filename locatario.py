@@ -2,6 +2,7 @@ from usuario import Usuario
 from item import Item
 from locador import Locador
 from endereco import Endereco
+from estoque import Estoque
 
 
 class Locatario(Usuario):
@@ -10,26 +11,13 @@ class Locatario(Usuario):
                          tipo, email, senha,
                          endereco)
 
-    def enviar_itens(self):
-        pass
-
-    def cadastrar_item(self, nome: str, preco: float, disponivel: bool, alugado: bool, devolvido: bool, entregue: bool) -> Item:
-        new_item = Item(nome, preco, disponivel, self)
-        self.list_itens_locatario.append(new_item)  # adicionar na lista
-        return new_item
-
-    def excluir_item(self, ident : int) -> None: # remover da lista
-        for item in range(self.list_itens_locatario):
-            if item.get_ident == ident:
-                self.list_itens_locatario.remove(item)
-
-    def enviar_itens(self, carrinho : Locador.Carrinho):
-        carrinho.set_entregue(True)
-        print("realizou a entrega do ", carrinho)
-
-    def ver_itens(self):
-        for item in range(self.list_itens_locatario):
-            print(item.get_nome())
+    def enviar_itens(self, estoque: Estoque) -> bool:
+        entregou = False
+        for item in estoque.get_lista_itens():
+            if item.get_dono() == self and item.get_alugado() == True and item.get_disponivel() == False:
+                item.set_entregue(True)
+                entregou = True
+        return entregou
 
     def __str__(self):
         return f'Nome: {self.get_nome}\n'

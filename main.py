@@ -2,6 +2,7 @@ from locador import Locador
 from locatario import Locatario
 from endereco import Endereco
 from item import Item
+from estoque import Estoque
 
 locadores: list[Locador] = []
 locatarios: list[Locatario] = []
@@ -9,6 +10,7 @@ itens: list[Item] = []
 criar_outra_conta: bool = True
 usuario_logado: Locador | Locatario = None
 logado: bool = False
+estoque = Estoque(itens)
 
 def criar_conta():
     while True:   
@@ -72,24 +74,15 @@ def logar():
                 else:
                     return False
 
-def remover_item(id: int) -> bool:
-    for item in itens:
-        if id == item.get_ident():
-            try:
-                itens.remove(item)
-                return True
-            except ValueError:
-                return False
-
 def processo_alugamento():
     while True:
         print("Esses são os itens disponíveis para alugar:")
-        for item in itens:
+        for item in estoque.get_lista_itens():
             if item.get_disponivel() == True:
                 print(item)
 
         id_item = input("Digite o ID do item que deseja alugar: ")
-        for item in itens:
+        for item in estoque.get_lista_itens():
             if item.get_ident() == int(id_item) and item.get_disponivel() == True:
                 item.set_disponivel(False)
                 usuario_logado.adicionar_item(item)
@@ -133,10 +126,9 @@ def processo_confirmar_alugamento():
                 item.set_alugado(True)
                 confirmou = True
                 break
-        for item in itens:
+        for item in estoque.get_lista_itens():
             if item.get_ident() == int(id_do_item_confirmado) and item.get_alugado() == False:
                 item.set_alugado(True)
-                print("O item ficou alugado? " + item.get_alugado())
                 break
         if confirmou == True:
             print("Item confirmado! Deseja alugar outro?")
@@ -147,9 +139,7 @@ def processo_confirmar_alugamento():
 def processo_cadastrar_item():
     nome = input('Nome do item: ')
     preco = input('preco: ')
-    item_novo = Item(nome, float(preco), True, usuario_logado, False, False, False)
-    itens.append(item_novo)
-    usuario_logado.cadastrar_item()
+    estoque.cadastrar_item(nome, float(preco), True, False, False, usuario_logado)
     print('Item cadastrado com sucesso!')
 
 while True:
@@ -166,7 +156,7 @@ while True:
         break
 
     if usuario_logado is not False and usuario_logado is not None:
-        print(f'Bem vindo, usuário {usuario_logado.get_nome()}.')
+        print(f'Bem vindo, {usuario_logado.get_nome()}.')
             
         if usuario_logado.get_tipo() == 1:
             while True:
@@ -178,8 +168,9 @@ while True:
                     processo_alugamento()
                 elif o_que_fazer == '2':
                     print("Esses são os itens que já chegaram")
-                    for item in usuario_logado.get_itens_entregues():
-                        print(item)
+                    for item in usuario_logado.get_itens_escolhidos():
+                        if item.get_entregue() == True:
+                            print(item)
 
                     print("Deseja devolver algum item?")
                     print("[1] Sim \n[2] Não")
@@ -189,8 +180,8 @@ while True:
                 elif o_que_fazer == '3':
                     print("Esses são os itens pedentes:")
                     for item in usuario_logado.get_itens_escolhidos():
-                        print(item)
-                    
+                        if item.get_alugado() == False:
+                            print(item)           
                     processo_confirmar_alugamento()
                 elif o_que_fazer == '4':
                     usuario_logado = None
@@ -206,19 +197,19 @@ while True:
                     processo_cadastrar_item()
                 elif opcao == '2':
                     print('Esses são os itens que você tem: ')
-                    for item in itens:
+                    for item in estoque.get_lista_itens():
                         if item.get_dono() == usuario_logado:
                             print(item)
                     id = input('Digite o id do item que deseja excluir: ')
 
-                    if remover_item(int(id)) == True:
+                    if estoque.excluir_item(int(id), usuario_logado) == True:
                         print('Item removido com sucesso!')
                     else:
                         print('Esse item não está cadastrado.')
                 elif opcao == '3':
                     print("Esses são os itens que você tem e que foram requisitados:")
                     tem_item_pra_enviar = False
-                    for item in itens:
+                    for item in estoque.get_lista_itens():
                         if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado and item.get_entregue() == False:
                             print(item)
                             tem_item_pra_enviar = True
@@ -229,9 +220,7 @@ while True:
                         print("[1] Sim \n[2] Não")
                         enviar = input()
                         if enviar == '1':
-                            for item in itens:
-                                if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
-                                    item.set_entregue(True)
+                            usuario_logado.enviar_itens(estoque)
                             for locador in locadores:
                                 for item in locador.get_itens_escolhidos():
                                     if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
@@ -240,22 +229,6 @@ while True:
                     usuario_logado = None
                     break
 
-print("Obrigado por utilizar o nosso programa!")                    
-
-
-
-
-# opcao_cadastrar_item = input("Deseja cadastrar um item? [1] Sim \n [2] Não")
-# while opcao_cadastrar_item == 1:
-#     print("Cadastre seu item: ")
-#     ident = input("Código de identificação: ")
-#     nome = input("Nome: ")
-#     preco = ("Valor: ") 
-#     disponivel = input("O item estará disponível para locação? [1] Sim [2] Não")
-#     if disponivel == "1": 
-#         item = Item(ident, nome, preco, True, locatario)
-#     else:
-#         item = Item(ident, nome, preco, False, locatario)
-#     opcao_cadastrar_item = input("Deseja cadastrar um novo item? [1] Sim [2] Não")
+print("Obrigado por utilizar o nosso programa!")
 
     
