@@ -1,6 +1,4 @@
 from usuario import Usuario
-from item import Item
-from locador import Locador
 from endereco import Endereco
 from estoque import Estoque
 

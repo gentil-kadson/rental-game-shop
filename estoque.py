@@ -1,4 +1,3 @@
-from item import Item
 from itertools import count
 class Estoque:
 

@@ -1,16 +1,15 @@
 from usuario import Usuario
-from item import Item
 from estoque import Estoque
 
 class Locador(Usuario):
-    def __init__(self, nome: str, cpf: str, tipo: int, email: str, senha: str, endereco, itens_escolhidos: list[Item]) -> None:
+    def __init__(self, nome: str, cpf: str, tipo: int, email: str, senha: str, endereco, itens_escolhidos) -> None:
         super().__init__(nome, cpf, tipo, email, senha, endereco)
         self.__itens_escolhidos = itens_escolhidos
     
-    def get_itens_escolhidos(self) -> list[Item]:
+    def get_itens_escolhidos(self):
         return self.__itens_escolhidos
     
-    def set_itens_escolhidos(self, itens_escolhidos: list[Item]):
+    def set_itens_escolhidos(self, itens_escolhidos):
         self.__itens_escolhidos = itens_escolhidos
 
     def enviar_itens(self, ident: int, estoque: Estoque):
@@ -24,6 +23,6 @@ class Locador(Usuario):
         return item_enviado
             
 
-    def adicionar_item(self, item: Item) -> bool:
+    def adicionar_item(self, item) -> bool:
         self.set_itens_escolhidos([*self.__itens_escolhidos, item])
         return True
