@@ -1,6 +1,7 @@
 # VER TIPAGEM DO ATRIBUTO 'tipo', SE É INTEIRO MESMO
+import abc
 
-class Usuario:
+class Usuario(abc.ABC):
     def __init__(self, nome: str, cpf_ou_cnpj: str, tipo: int, email: str, senha: str, endereco) -> None:
         self.__nome = nome
         self.__cpf_ou_cnpj = cpf_ou_cnpj
@@ -29,10 +30,8 @@ class Usuario:
         Caso seja chamado pelo locador, realiza a devolução do item
         Caso seja chamado pelo locatário, realiza a entrega para empréstimo do item
     """
-
-    # VER SE RECEBE O CARRINHO COMO PARÂMETRO MESMO. SE SIM, MUDAR NO DIAGRAMA
+    @abc.abstractmethod
     def enviar_itens(self):
-        # implementar aqui
         pass
 
     """ getters e setters """

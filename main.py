@@ -1,16 +1,14 @@
 from locador import Locador
 from locatario import Locatario
 from endereco import Endereco
-from item import Item
 from estoque import Estoque
 
 locadores: list[Locador] = []
 locatarios: list[Locatario] = []
-itens: list[Item] = []
 criar_outra_conta: bool = True
 usuario_logado: Locador | Locatario = None
 logado: bool = False
-estoque = Estoque(itens)
+estoque = Estoque([])
 
 def criar_conta():
     while True:   
@@ -32,15 +30,8 @@ def criar_conta():
         endereco = Endereco(logradouro, cidade, estado, pais)  
 
         if tipo_conta_a_criar == '1':
-            print("Quer usar transportadora (você pode mudar depois)?")
-            print("[1] Sim \n[2] Não")
-            usa_transportadora = input()
-            if usa_transportadora == '1':
-                locador = Locador(nome, cpf_cnpj, 1, email, senha, endereco, [])
-                locadores.append(locador)
-            else:
-                locador = Locador(nome, cpf_cnpj, 1, email, senha, endereco, [])
-                locadores.append(locador)
+            locador = Locador(nome, cpf_cnpj, 1, email, senha, endereco, [])
+            locadores.append(locador)
         elif tipo_conta_a_criar == '2':
             locatario = Locatario(nome, 2, cpf_cnpj, email, senha, endereco)
             locatarios.append(locatario)
@@ -65,16 +56,16 @@ def logar():
                 if locador.logar(email_check, senha_check) == True:
                     return locador
                 else:
-                    return False
+                    break
             
         if opcao == '2':
             for locatario in locatarios:
                 if locatario.logar(email_check, senha_check):
                     return locatario
                 else:
-                    return False
+                    break
 
-def processo_alugamento():
+def processo_locacao():
     while True:
         print("Esses são os itens disponíveis para alugar:")
         for item in estoque.get_lista_itens():
@@ -87,7 +78,7 @@ def processo_alugamento():
                 item.set_disponivel(False)
                 usuario_logado.adicionar_item(item)
 
-        print("Deseja alguar mais algum?")
+        print("Deseja alugar mais algum?")
         print("[1] Sim \n[2] Não")
         alugar_mais = input()
         if alugar_mais == '2':
@@ -104,7 +95,7 @@ def processo_devolver_item():
                 item.set_disponivel(True)
                 usuario_logado.get_itens_escolhidos().remove(item)
 
-        for item in itens:
+        for item in estoque.get_lista_itens():
             if item.get_ident() == int(id_item_a_devolver) and item.get_entregue() == True:
                 item.set_entregue(False)
                 item.set_alugado(False)
@@ -117,7 +108,7 @@ def processo_devolver_item():
         if devolver_outro == '2':
             break
 
-def processo_confirmar_alugamento():
+def processo_confirmar_locacao():
     while True:
         id_do_item_confirmado = input("Digite o id do item confirmado: ")
         confirmou = False
@@ -165,7 +156,7 @@ while True:
                 o_que_fazer = input()
                 
                 if o_que_fazer == '1':
-                    processo_alugamento()
+                    processo_locacao()
                 elif o_que_fazer == '2':
                     print("Esses são os itens que já chegaram")
                     for item in usuario_logado.get_itens_escolhidos():
@@ -178,11 +169,11 @@ while True:
                     if devovler == '1':
                         processo_devolver_item()
                 elif o_que_fazer == '3':
-                    print("Esses são os itens pedentes:")
+                    print("Esses são os itens pendentes:")
                     for item in usuario_logado.get_itens_escolhidos():
                         if item.get_alugado() == False:
                             print(item)           
-                    processo_confirmar_alugamento()
+                    processo_confirmar_locacao()
                 elif o_que_fazer == '4':
                     usuario_logado = None
                     break
@@ -196,16 +187,16 @@ while True:
                 if opcao == '1':
                     processo_cadastrar_item()
                 elif opcao == '2':
-                    print('Esses são os itens que você tem: ')
+                    print('Esses são os itens que você tem disponíveis para exclusão: ')
                     for item in estoque.get_lista_itens():
-                        if item.get_dono() == usuario_logado:
+                        if item.get_dono() == usuario_logado and item.get_alugado() == False and item.get_disponivel() == True:
                             print(item)
                     id = input('Digite o id do item que deseja excluir: ')
 
                     if estoque.excluir_item(int(id), usuario_logado) == True:
                         print('Item removido com sucesso!')
                     else:
-                        print('Esse item não está cadastrado.')
+                        print('Esse item não está cadastrado ou está locado.')
                 elif opcao == '3':
                     print("Esses são os itens que você tem e que foram requisitados:")
                     tem_item_pra_enviar = False
@@ -220,11 +211,14 @@ while True:
                         print("[1] Sim \n[2] Não")
                         enviar = input()
                         if enviar == '1':
-                            usuario_logado.enviar_itens(estoque)
-                            for locador in locadores:
-                                for item in locador.get_itens_escolhidos():
-                                    if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
-                                        item.set_entregue(True)
+                            if usuario_logado.enviar_itens(estoque) == True:
+                                print("Itens enviados!")
+                                for locador in locadores:
+                                    for item in locador.get_itens_escolhidos():
+                                        if item.get_disponivel() == False and item.get_alugado() == True and item.get_dono() == usuario_logado:
+                                            item.set_entregue(True)
+                            else:
+                                print("Itens não puderam ser enviados")
                 elif opcao == '4':
                     usuario_logado = None
                     break
