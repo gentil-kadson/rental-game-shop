@@ -24,4 +24,7 @@ class Locatario(Usuario):
         return entregou
 
     def __str__(self):
+        '''
+        Retorna o nome do Locatário em formato string.
+        '''
         return f'Nome: {self.get_nome}\n'

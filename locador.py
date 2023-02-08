@@ -37,7 +37,7 @@ class Locador(Usuario):
 
     def adicionar_item(self, item) -> bool:
         '''
-        Adiciona um item na coleção de itens_escolhidos do usuário. Recebe como parâmetro um item do tipo Item.
+        Adiciona um item na coleção de itens_escolhidos do usuário. Recebe como parâmetro um item do tipo Item. Retorna True.
         '''
         self.set_itens_escolhidos([*self.__itens_escolhidos, item])
         return True

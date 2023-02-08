@@ -94,7 +94,7 @@ class Estoque:
 
         def __str__(self) -> str:
             '''
-            Retorna informações gerais sobre o item (seus atributos).
+            Retorna informações gerais sobre o item (seus atributos) em forma de string.
             '''
             return (f'ID: {self.__id}\nNome do Item: {self.__nome}\nPreço do Item: {self.__preco}\nDono do Item: {self.__dono.get_nome()}')
 

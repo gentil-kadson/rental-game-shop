@@ -111,6 +111,6 @@ class Usuario(abc.ABC):
 
     def __str__(self) -> str:
         '''
-        Retorna todas as informações possíveis sobre o usuário (todos os seus atributos).
+        Retorna todas as informações possíveis sobre o usuário (todos os seus atributos) em forma de string.
         '''
         return (f"Usuário: {self.__nome}\nCPF/CNPJ: {self.__cpf_ou_cnpj}\nTipo: {self.__tipo}\nEmail: {self.__email}\nSenha: {self.__senha}\nEndereço: {self.__endereco} ")

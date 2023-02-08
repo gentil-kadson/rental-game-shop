@@ -59,6 +59,6 @@ class Endereco:
 
     def __str__(self) -> str:
         '''
-        Retorna todas as informações possíveis sobre o endereço (todos os seus atributos).
+        Retorna todas as informações possíveis sobre o endereço (todos os seus atributos) em forma de string.
         '''
         return (f'Logradouro: {self.__logradouro}\nCidade: {self.__cidade}\nEstado: {self.__estado} \n{self.__pais}')

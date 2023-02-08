@@ -12,7 +12,7 @@ estoque = Estoque([])
 
 def criar_conta():
     '''
-    Inicia o processo de criação de conta do usuário. Esta função ira criar um locador, caso o usuário digite 1, ou um locatário, caso o usuário digite 2.
+    Inicia o processo de criação de conta do usuário. Esta função irá criar um locador, caso o usuário digite 1, ou um locatário, caso o usuário digite 2.
     '''
     while True:   
         print("Que tipo de conta quer criar?")
