@@ -11,6 +11,9 @@ logado: bool = False
 estoque = Estoque([])
 
 def criar_conta():
+    '''
+    Inicia o processo de criação de conta do usuário. Esta função ira criar um locador, caso o usuário digite 1, ou um locatário, caso o usuário digite 2.
+    '''
     while True:   
         print("Que tipo de conta quer criar?")
         print("[1] Locador \n[2] Locatário")
@@ -43,6 +46,9 @@ def criar_conta():
             break
 
 def logar():
+    '''
+    Loga o usuário no sistema. A função irá retornar um objeto ou do tipo Locador ou do tipo Locatario -- isso depende de qual tipo de usuário o usuário é. Caso o sistema não consiga logar, volta-se para a tela inicial do sistema.
+    '''
     print("Que tipo de usuário é você?")
     print("[1] Locador \n[2] Locatário \n[3] Sair")
     opcao = input()
@@ -66,6 +72,9 @@ def logar():
                     break
 
 def processo_locacao():
+    '''
+    Inicia o processo de locação de um item disponível para ser alugado. Nessa função, o usuário levará o item apenas para a seção de pagamentos pendentes; ele não estará confirmando a locação do item. Caso ele aloque algum item, ele será adicionado à lista de itens escolhidos do usuário e será marcado como indisponível. Nesse processo, o usuário poderá alocar quantos itens quiser.
+    '''
     while True:
         print("Esses são os itens disponíveis para alugar:")
         for item in estoque.get_lista_itens():
@@ -85,6 +94,9 @@ def processo_locacao():
             break
 
 def processo_devolver_item():
+    '''
+    Inicia o processo de devolução de um determinado item por parte do locador. O usuário digita o ID do item que ele deseja devolver. Se o ID corresponder ao de algum item que o locador tenha, ele será devolvido. O item então será marcado como disponível novamente.
+    '''
     while True:
         id_item_a_devolver = input("Digite o id do item que quer devolver: ")
         
@@ -109,6 +121,9 @@ def processo_devolver_item():
             break
 
 def processo_confirmar_locacao():
+    '''
+    Inicia o processo de confirmar a locação do item. O usuário é perguntado, primeiramente, o id do item confirmado. Se o ID do item corresponder ao ID de algum dos itens que estão na lista de pagamentos pendentes do usuário, o pagamento será confirmado e o item será marcado como indisponível e alugado.
+    '''
     while True:
         id_do_item_confirmado = input("Digite o id do item confirmado: ")
         confirmou = False
@@ -128,6 +143,9 @@ def processo_confirmar_locacao():
                 break
 
 def processo_cadastrar_item():
+    '''
+    Realiza o processo de cadastrar item, pedindo informações sobre ele (nome e preco) e chamando o estoque para cadastrá-lo nele.
+    '''
     nome = input('Nome do item: ')
     preco = input('preco: ')
     estoque.cadastrar_item(nome, float(preco), True, False, False, usuario_logado)
