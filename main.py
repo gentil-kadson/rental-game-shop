@@ -107,11 +107,7 @@ def processo_devolver_item():
                 item.set_disponivel(True)
                 usuario_logado.get_itens_escolhidos().remove(item)
 
-        for item in estoque.get_lista_itens():
-            if item.get_ident() == int(id_item_a_devolver) and item.get_entregue() == True:
-                item.set_entregue(False)
-                item.set_alugado(False)
-                item.set_disponivel(True)
+        usuario_logado.enviar_itens(int(id_item_a_devolver), estoque)
 
         print("Item devolvido com sucesso!")
         print("Deseja devolver outro?")
